@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { TodosService } from '../todos.service';
+import { Todo } from '../interface/interface';
 
 @Component({
   selector: 'app-todo',
@@ -7,7 +8,8 @@ import { TodosService } from '../todos.service';
   styleUrls: ['./todo.component.scss']
 })
 export class TodoComponent implements OnInit {
-  todos: { text: string, completed: boolean }[] = [];
+  newAction = '';
+  todos: Todo[] = [];
 
   constructor(private todosService: TodosService) { }
 
@@ -15,9 +17,19 @@ export class TodoComponent implements OnInit {
     this.fetchTodos();
   }
 
+  submitForm(): void {
+    if (this.newAction.trim() !== '') {
+      this.todosService.addNewTodoAction(this.newAction);
+      this.newAction = '';
+      this.fetchTodos();
+    }
+  }
+
   fetchTodos(): void {
-    this.todosService.getTodos().then(todos => {
-      this.todos = todos;
-    });
+    this.todos = this.todosService.getTodos();
+  }
+
+  markAsCompleted(todo: Todo): void {
+    this.todosService.markTodoAsCompleted(todo);
   }
 }

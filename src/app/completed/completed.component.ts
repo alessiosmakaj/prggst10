@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { TodosService } from '../todos.service';
+import { Todo } from '../interface/interface';
 
 @Component({
   selector: 'app-completed',
@@ -7,7 +8,7 @@ import { TodosService } from '../todos.service';
   styleUrls: ['./completed.component.scss']
 })
 export class CompletedComponent implements OnInit {
-  todos: { text: string, completed: boolean }[] = [];
+  todos: Todo[] = [];
 
   constructor(private todosService: TodosService) { }
 
@@ -15,10 +16,12 @@ export class CompletedComponent implements OnInit {
     this.fetchCompletedTodos();
   }
 
-  fetchCompletedTodos(): void {
-    this.todosService.getTodos().then(todos => {
-      this.todos = todos.filter(todo => todo.completed);
-    });
+  async fetchCompletedTodos(): Promise<void> {
+    try {
+      this.todos = await this.todosService.getCompletedTodos();
+    } catch (error) {
+      // Gestisci eventuali errori qui
+    }
   }
-}
 
+}

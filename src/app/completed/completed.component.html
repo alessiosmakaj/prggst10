@@ -1,4 +1,5 @@
-<h2>Completed List</h2>
-<ul>
-  <li *ngFor="let todo of todos">{{ todo }}</li>
-</ul>
+<div *ngFor="let item of todos">
+    <div *ngIf="item.completed == true">
+      <p>{{item.text}}</p>
+    </div>
+  </div>

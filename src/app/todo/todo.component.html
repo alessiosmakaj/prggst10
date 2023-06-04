@@ -1,4 +1,15 @@
 <h2>Todo List</h2>
+
+<form (ngSubmit)="submitForm()">
+  <input type="text" [(ngModel)]="newAction" name="newAction" placeholder="Enter action" required>
+  <button id="dadegi" type="submit">Add</button>
+</form>
+
 <ul>
-  <li *ngFor="let todo of todos">{{ todo }}</li>
-</ul>
+    <li *ngFor="let todo of todos">
+      <span>{{ todo.text }}</span>
+      <button *ngIf="!todo.completed" (click)="markAsCompleted(todo)">Completed</button>
+      <span *ngIf="todo.completed" class="completed-mark">&#10003;</span>
+    </li>
+  </ul>
+
